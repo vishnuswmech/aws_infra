@@ -34,3 +34,19 @@ variable "igw_tags" {
 variable "igw_rt_tags" {
 
 }
+variable "key_pair_name" {
+  
+}
+variable "key_pair" {
+  
+}
+variable "ami_name" {
+  
+}
+variable "instance_type" {
+  
+}
+variable "ec2_tags" {
+  
+}
+

@@ -23,7 +23,7 @@ module "private_subnet" {
 
 module "igw" {
 
-  source   = "./modules/internet-gateway"
+  source   = "./modules/foundation/internet-gateway"
   vpc_id   = module.vpc.vpc_id
   igw_tags = var.igw_tags
 }
@@ -36,5 +36,20 @@ module "igw_route_table" {
   open_to_all_cidr    = "0.0.0.0/0"
   igw_rt_tags         = var.igw_rt_tags
   subnet              = module.public_subnet.subnet_id
+}
+
+module "ec2" {
+source = "./modules/ec2"
+key_pair_name = var.key_pair_name
+key_pair = var.key_pair
+ami_name = var.ami_name
+instance_type = var.instance_type
+subnet_id = module.public_subnet.subnet_id
+ec2_tags = var.ec2_tags
+vpc_id = module.vpc.vpc_id
+
+
+
+
 }
 
