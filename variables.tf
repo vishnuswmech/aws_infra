@@ -35,18 +35,28 @@ variable "igw_rt_tags" {
 
 }
 variable "key_pair_name" {
-  
+
 }
 variable "key_pair" {
-  
+
 }
 variable "ami_name" {
-  
+
 }
 variable "instance_type" {
-  
+
 }
 variable "ec2_tags" {
-  
+
 }
+variable "ec2_volume" {
+
+}
+variable "public_ec2" {
+
+}
+variable "private_ec2" {
+
+}
+
 
