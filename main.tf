@@ -39,17 +39,18 @@ module "igw_route_table" {
 }
 
 module "ec2" {
-source = "./modules/ec2"
-key_pair_name = var.key_pair_name
-key_pair = var.key_pair
-ami_name = var.ami_name
-instance_type = var.instance_type
-subnet_id = module.public_subnet.subnet_id
-ec2_tags = var.ec2_tags
-vpc_id = module.vpc.vpc_id
-
-
-
+  source            = "./modules/ec2"
+  key_pair_name     = var.key_pair_name
+  key_pair          = var.key_pair
+  ami_name          = var.ami_name
+  instance_type     = var.instance_type
+  public_subnet_id  = module.public_subnet.subnet_id
+  ec2_tags          = var.ec2_tags
+  vpc_id            = module.vpc.vpc_id
+  ec2_volume        = var.ec2_volume
+  private_subnet_id = module.private_subnet.subnet_id
+  public_ec2        = var.public_ec2
+  private_ec2       = var.private_ec2
 
 }
 
