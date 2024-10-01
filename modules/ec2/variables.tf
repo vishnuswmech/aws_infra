@@ -31,4 +31,7 @@ variable "public_subnet_id" {
 variable "private_ec2" {
 
 }
+variable "vpc_cidr" {
+
+}
 

@@ -51,6 +51,7 @@ module "ec2" {
   private_subnet_id = module.private_subnet.subnet_id
   public_ec2        = var.public_ec2
   private_ec2       = var.private_ec2
+  vpc_cidr          = module.vpc.cidr
 
 }
 
