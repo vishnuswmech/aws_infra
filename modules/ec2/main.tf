@@ -10,7 +10,7 @@ resource "aws_instance" "public_ec2_instance" {
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.ec2_keypair.key_name
   subnet_id                   = var.public_subnet_id
-  vpc_security_group_ids      = [aws_security_group.ec2-sg.id]
+  vpc_security_group_ids      = [aws_security_group.ec2-sg[count.index].id]
   depends_on                  = [aws_key_pair.ec2_keypair, aws_security_group.ec2-sg]
   tags                        = var.ec2_tags
   associate_public_ip_address = true
@@ -25,7 +25,7 @@ resource "aws_instance" "private_ec2_instance" {
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.ec2_keypair.key_name
   subnet_id                   = var.private_subnet_id
-  vpc_security_group_ids      = [aws_security_group.ec2-sg.id]
+  vpc_security_group_ids      = [aws_security_group.ec2-sg[count.index].id]
   depends_on                  = [aws_key_pair.ec2_keypair, aws_security_group.ec2-sg]
   tags                        = var.ec2_tags
   associate_public_ip_address = false
@@ -35,6 +35,7 @@ resource "aws_instance" "private_ec2_instance" {
 }
 
 resource "aws_security_group" "ec2-sg" {
+  count  = var.private_ec2 ? 1 : 0
   vpc_id = var.vpc_id
 
   egress {

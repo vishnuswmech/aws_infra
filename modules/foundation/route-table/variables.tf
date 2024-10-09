@@ -16,5 +16,7 @@ variable "igw_rt_tags" {
 variable "subnet" {
 
 }
+variable "subnet_cidr" {
 
+}
 
