@@ -7,16 +7,18 @@ module "vpc" {
 
 
 module "public_subnet" {
+  count       = length(var.public_subnet_cidr)
   source      = "./modules/foundation/subnet"
-  subnet_cidr = var.public_subnet_cidr
+  subnet_cidr = var.public_subnet_cidr[count.index]
   subnet_tags = var.public_subnet_tags
   vpc_id      = module.vpc.vpc_id
 }
 
 
 module "private_subnet" {
+  count       = length(var.private_subnet_cidr)
   source      = "./modules/foundation/subnet"
-  subnet_cidr = var.private_subnet_cidr
+  subnet_cidr = var.private_subnet_cidr[count.index]
   subnet_tags = var.private_subnet_tags
   vpc_id      = module.vpc.vpc_id
 }
@@ -35,7 +37,8 @@ module "igw_route_table" {
   internet_gateway_id = module.igw.igw_id
   open_to_all_cidr    = "0.0.0.0/0"
   igw_rt_tags         = var.igw_rt_tags
-  subnet              = module.public_subnet.subnet_id
+  subnet              = module.public_subnet[*].subnet_id
+  subnet_cidr         = var.public_subnet_cidr[*]
 }
 
 module "ec2" {
@@ -44,11 +47,11 @@ module "ec2" {
   key_pair          = var.key_pair
   ami_name          = var.ami_name
   instance_type     = var.instance_type
-  public_subnet_id  = module.public_subnet.subnet_id
+  public_subnet_id  = module.public_subnet[0].subnet_id
   ec2_tags          = var.ec2_tags
   vpc_id            = module.vpc.vpc_id
   ec2_volume        = var.ec2_volume
-  private_subnet_id = module.private_subnet.subnet_id
+  private_subnet_id = module.private_subnet[0].subnet_id
   public_ec2        = var.public_ec2
   private_ec2       = var.private_ec2
   vpc_cidr          = module.vpc.cidr

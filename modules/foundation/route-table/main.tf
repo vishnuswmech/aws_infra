@@ -13,6 +13,7 @@ resource "aws_route_table" "igw_route" {
 }
 
 resource "aws_route_table_association" "route_table_association" {
-  subnet_id      = var.subnet
+  count          = length(var.subnet_cidr)
+  subnet_id      = var.subnet[count.index]
   route_table_id = aws_route_table.igw_route.id
 }

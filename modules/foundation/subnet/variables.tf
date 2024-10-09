@@ -1,6 +1,7 @@
 variable "subnet_cidr" {
   description = "Subnet CIDR"
-  type        = string
+
+
 }
 variable "subnet_tags" {
   description = "Subnet tags"
@@ -9,3 +10,4 @@ variable "subnet_tags" {
 variable "vpc_id" {
 
 }
+
