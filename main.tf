@@ -7,20 +7,22 @@ module "vpc" {
 
 
 module "public_subnet" {
-  count       = length(var.public_subnet_cidr)
-  source      = "./modules/foundation/subnet"
-  subnet_cidr = var.public_subnet_cidr[count.index]
-  subnet_tags = var.public_subnet_tags
-  vpc_id      = module.vpc.vpc_id
+  count             = length(var.public_subnet_cidr)
+  source            = "./modules/foundation/subnet"
+  subnet_cidr       = var.public_subnet_cidr[count.index]
+  subnet_tags       = var.public_subnet_tags
+  vpc_id            = module.vpc.vpc_id
+  availability_zone = var.availability_zone[count.index]
 }
 
 
 module "private_subnet" {
-  count       = length(var.private_subnet_cidr)
-  source      = "./modules/foundation/subnet"
-  subnet_cidr = var.private_subnet_cidr[count.index]
-  subnet_tags = var.private_subnet_tags
-  vpc_id      = module.vpc.vpc_id
+  count             = length(var.private_subnet_cidr)
+  source            = "./modules/foundation/subnet"
+  subnet_cidr       = var.private_subnet_cidr[count.index]
+  subnet_tags       = var.private_subnet_tags
+  vpc_id            = module.vpc.vpc_id
+  availability_zone = var.availability_zone[count.index]
 }
 
 module "igw" {
@@ -55,6 +57,28 @@ module "ec2" {
   public_ec2        = var.public_ec2
   private_ec2       = var.private_ec2
   vpc_cidr          = module.vpc.cidr
+
+
+}
+module "nat-gateway" {
+  source           = "./modules/foundation/nat-gateway"
+  public_subnet_id = module.public_subnet[0].subnet_id
+}
+module "nat-gateway-route" {
+  source           = "./modules/foundation/private-route-table"
+  cidr             = module.vpc.cidr
+  vpc_id           = module.vpc.vpc_id
+  open_to_all_cidr = "0.0.0.0/0"
+  nat_gateway_id   = module.nat-gateway.nat-gateway-id
+  nat_rt_tags      = var.nat_rt_tags
+  subnet_cidr      = var.private_subnet_cidr
+  subnet           = module.private_subnet[*].subnet_id
+
+}
+module "eks-cluster" {
+  source       = "./modules/eks"
+  subnet_ids   = module.private_subnet[*].subnet_id
+  eks_creation = var.eks_creation
 
 }
 
