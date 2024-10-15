@@ -58,5 +58,13 @@ variable "public_ec2" {
 variable "private_ec2" {
 
 }
+variable "nat_rt_tags" {
 
+}
+variable "availability_zone" {
+
+}
+variable "eks_creation" {
+
+}
 
