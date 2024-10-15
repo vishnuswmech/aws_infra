@@ -67,4 +67,19 @@ variable "availability_zone" {
 variable "eks_creation" {
 
 }
+variable "cluster_name" {
+
+}
+variable "ng1_name" {
+
+}
+variable "eks_version" {
+
+}
+variable "ng_disk_size" {
+
+}
+variable "ng_instance_type" {
+
+}
 

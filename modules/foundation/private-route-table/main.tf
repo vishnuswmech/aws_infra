@@ -10,6 +10,11 @@ resource "aws_route_table" "nat_route" {
     gateway_id = var.nat_gateway_id
   }
   tags = var.nat_rt_tags
+  lifecycle {
+    ignore_changes = [
+      route
+    ]
+  }
 }
 
 resource "aws_route_table_association" "route_table_association" {
