@@ -74,11 +74,18 @@ module "nat-gateway-route" {
   subnet_cidr      = var.private_subnet_cidr
   subnet           = module.private_subnet[*].subnet_id
 
+
 }
 module "eks-cluster" {
-  source       = "./modules/eks"
-  subnet_ids   = module.private_subnet[*].subnet_id
-  eks_creation = var.eks_creation
+  source           = "./modules/eks"
+  subnet_ids       = module.private_subnet[*].subnet_id
+  eks_creation     = var.eks_creation
+  cluster_name     = var.cluster_name
+  ng1_name         = var.ng1_name
+  eks_version      = var.eks_version
+  ng_disk_size     = var.ng_disk_size
+  ng_instance_type = var.ng_instance_type
+  ssh_key_name     = var.key_pair_name
 
 }
 

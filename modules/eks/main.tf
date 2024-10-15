@@ -1,6 +1,6 @@
 resource "aws_eks_cluster" "vishnu-eks" {
   count    = var.eks_creation ? 1 : 0
-  name     = "vishnu-eks"
+  name     = var.cluster_name
   role_arn = aws_iam_role.eks-role[count.index].arn
 
 
@@ -15,7 +15,7 @@ resource "aws_eks_cluster" "vishnu-eks" {
   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
   depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSClusterPolicy-attachment-to-eks-role,
-    aws_iam_role_policy_attachment.AmazonEKSVPCResourceController-attachment-to-eks-role,
+    aws_iam_role_policy_attachment.AmazonEKSVPCResourceController-attachment-to-eks-role
   ]
 }
 
