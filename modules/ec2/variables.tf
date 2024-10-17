@@ -34,4 +34,6 @@ variable "private_ec2" {
 variable "vpc_cidr" {
 
 }
+variable "ec2_iam_role" {
 
+}

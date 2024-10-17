@@ -57,6 +57,7 @@ module "ec2" {
   public_ec2        = var.public_ec2
   private_ec2       = var.private_ec2
   vpc_cidr          = module.vpc.cidr
+  ec2_iam_role      = var.ec2_iam_role
 
 
 }
@@ -86,6 +87,8 @@ module "eks-cluster" {
   ng_disk_size     = var.ng_disk_size
   ng_instance_type = var.ng_instance_type
   ssh_key_name     = var.key_pair_name
+  vpc_cidr         = module.vpc.cidr
+  vpc_id           = module.vpc.vpc_id
 
 }
 

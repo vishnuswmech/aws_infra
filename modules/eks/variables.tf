@@ -22,3 +22,9 @@ variable "ng_disk_size" {
 variable "ssh_key_name" {
 
 }
+variable "vpc_id" {
+
+}
+variable "vpc_cidr" {
+
+}

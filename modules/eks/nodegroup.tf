@@ -23,7 +23,7 @@ resource "aws_eks_node_group" "eks-ng1" {
   depends_on = [
     aws_iam_role_policy_attachment.ng-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.ng-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.ng-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.ng-AmazonEC2ContainerRegistryReadOnly, aws_eks_cluster.vishnu-eks
   ]
 }
 
