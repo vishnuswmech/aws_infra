@@ -3,11 +3,13 @@ resource "aws_eks_cluster" "vishnu-eks" {
   name     = var.cluster_name
   role_arn = aws_iam_role.eks-role[count.index].arn
 
-
   vpc_config {
     subnet_ids              = var.subnet_ids
     endpoint_private_access = true
     endpoint_public_access  = false
+    security_group_ids      = [aws_security_group.eks-master-sg.id]
+
+
 
   }
 
@@ -15,7 +17,7 @@ resource "aws_eks_cluster" "vishnu-eks" {
   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
   depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSClusterPolicy-attachment-to-eks-role,
-    aws_iam_role_policy_attachment.AmazonEKSVPCResourceController-attachment-to-eks-role
+    aws_iam_role_policy_attachment.AmazonEKSVPCResourceController-attachment-to-eks-role, aws_security_group.eks-master-sg
   ]
 }
 
@@ -61,4 +63,26 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController-attach
   count      = var.eks_creation ? 1 : 0
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
   role       = aws_iam_role.eks-role[count.index].name
+}
+
+resource "aws_security_group" "eks-master-sg" {
+  vpc_id = var.vpc_id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.vpc_cidr]
+
+  }
+
+
 }

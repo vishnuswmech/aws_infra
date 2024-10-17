@@ -82,4 +82,6 @@ variable "ng_disk_size" {
 variable "ng_instance_type" {
 
 }
+variable "ec2_iam_role" {
 
+}
